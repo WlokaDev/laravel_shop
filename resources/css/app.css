@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#app {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f1f4f6;
+    /*background-color: #e5e5e5;*/
+    min-height: 100dvh;
+    overflow-y: hidden;
+    overscroll-behavior-x: none;
+    font-optical-sizing: auto;
+}
+
+.app-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (min-width: 500px) {
+    .app-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (min-width: 1456px) {
+    .app-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .max-w-app-container {
+        max-width: calc(100dvw);
+    }
+}
