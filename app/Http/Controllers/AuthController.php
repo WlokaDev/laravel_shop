@@ -6,6 +6,7 @@ use App\Data\Auth\LoginData;
 use App\Enums\ResponseCodeEnum;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -34,6 +35,23 @@ class AuthController extends Controller
 
             return back()->with('response', [
                 'status' => ResponseCodeEnum::BAD_REQUEST
+            ]);
+        }
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        try {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return response()->redirectToRoute('home');
+        } catch (Exception $exception) {
+            $this->reportError($exception);
+
+            return back()->with('response', [
+                'code' => ResponseCodeEnum::BAD_REQUEST
             ]);
         }
     }

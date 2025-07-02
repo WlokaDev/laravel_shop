@@ -28,7 +28,7 @@ const Navbar = () => {
         {auth ? (
           <UserDropdown auth={auth} />
         ) : (
-          <Button href={'/logowanie'} color={'primary'}>
+          <Button as={'a'} href={'/logowanie'} color={'primary'}>
             {t('layout.navbar.login')}
           </Button>
         )}
