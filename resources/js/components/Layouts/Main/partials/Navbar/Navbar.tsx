@@ -3,12 +3,12 @@ import {
   Navbar as BaseNavbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
 } from '@heroui/react'
 import { useTranslation } from 'react-i18next'
-import { Link } from '@/components'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { UserDropdown } from './UserDropdown'
+import { NavbarItem } from '../../../NavbarItem'
+import { navbarRoutes } from '@/lib/routes'
 
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'MyApp'
 
@@ -20,9 +20,9 @@ const Navbar = () => {
     <BaseNavbar maxWidth={'xl'}>
       <NavbarBrand>{APP_NAME}</NavbarBrand>
       <NavbarContent justify={'start'}>
-        <NavbarItem>
-          <Link href={'/'}>{t('layout.navbar.home')}</Link>
-        </NavbarItem>
+        {navbarRoutes.map((props, index) => (
+          <NavbarItem key={index} {...props} />
+        ))}
       </NavbarContent>
       <NavbarContent justify={'end'}>
         {auth ? (
