@@ -1,9 +1,19 @@
 import { MainLayout } from '@/components/Layouts/Main'
+import { PaginationInterface } from '@/types'
+import { ProductCard, ProductInterface } from '@/features/products'
 
-const HomePage = () => {
+type Props = Readonly<{
+  data: PaginationInterface<ProductInterface>
+}>
+
+const HomePage = ({ data }: Props) => {
   return (
     <MainLayout>
-      <div></div>
+      <div className={'grid lg:grid-cols-6 gap-4 p-8'}>
+        {data.data.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))}
+      </div>
     </MainLayout>
   )
 }

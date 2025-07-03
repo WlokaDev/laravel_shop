@@ -8,9 +8,10 @@ use App\Enums\MediaProviderEnum;
 use App\Enums\MediaTypeEnum;
 use App\Interfaces\Services\ProductServiceInterface;
 use App\Models\Product;
+use App\Models\ProductMedia;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Spatie\LaravelData\DataCollection;
 
 class ProductService implements ProductServiceInterface
 {
@@ -34,20 +35,25 @@ class ProductService implements ProductServiceInterface
         return $this;
     }
 
-    private function syncMedia(DataCollection $dataCollection): void
+    private function syncMedia(Collection $dataCollection): void
     {
         // Media to delete
-        $idsToDelete = $dataCollection->toCollection()->whereNotNull('id')->where('delete', true)->pluck('id');
-        $mediaToDelete = $this->product->media()->whereIn('id', $idsToDelete)->get();
+        $idsToDelete = $dataCollection
+            ->whereNotNull('id')
+            ->where('delete', true)
+            ->pluck('id');
 
-        foreach ($mediaToDelete as $media) {
-            Storage::disk($media->provider)->delete($media->path);
-            $media->forceDelete();
-        }
+        $this->product
+            ->media()
+            ->whereIn('id', $idsToDelete)
+            ->get()
+            ->each(function (ProductMedia $media) {
+                Storage::disk($media->provider)->delete($media->path);
+                $media->forceDelete();
+            });
 
         // Media to reorder
         $dataCollection
-            ->toCollection()
             ->whereNotNull('id')
             ->where('delete', false)
             ->each(fn(ProductMediaData $media) => $this->product->media()->where('id', $media->id)->update([
@@ -56,7 +62,6 @@ class ProductService implements ProductServiceInterface
 
         // Media to create
         $dataCollection
-            ->toCollection()
             ->whereNull('id')
             ->each(function (ProductMediaData $media) {
                 $path = $media->file->store(sprintf('/products/%s', $this->product->getKey()));

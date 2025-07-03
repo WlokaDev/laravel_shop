@@ -1,5 +1,4 @@
 import { Navbar as BaseNavbar, NavbarBrand, NavbarContent } from '@heroui/react'
-import { useTranslation } from 'react-i18next'
 import { adminNavbarRoutes } from '@/lib/routes'
 import { UserDropdown } from './UserDropdown'
 import { NavbarItem } from '../../../NavbarItem'
@@ -7,8 +6,6 @@ import { NavbarItem } from '../../../NavbarItem'
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'MyApp'
 
 const Navbar = () => {
-  const { t } = useTranslation()
-
   return (
     <BaseNavbar maxWidth={'xl'}>
       <NavbarBrand>{APP_NAME}</NavbarBrand>

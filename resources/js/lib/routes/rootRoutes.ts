@@ -4,6 +4,12 @@ const rootRoutes = {
   auth: {
     logout: '/logout',
   },
+  products: {
+    details: {
+      path: '/products/:slug',
+      component: 'Products/Details/Page',
+    },
+  },
   home: {
     path: '/',
     component: 'Home/Page',

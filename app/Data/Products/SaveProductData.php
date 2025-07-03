@@ -5,6 +5,7 @@ namespace App\Data\Products;
 use App\Enums\ProductStatusEnum;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
@@ -14,7 +15,6 @@ use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Casts\EnumCast;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use Spatie\LaravelData\Support\Validation\ValidationContext;
 
@@ -33,7 +33,7 @@ class SaveProductData extends Data
         #[WithCast(EnumCast::class)]
         public ProductStatusEnum $status,
         #[DataCollectionOf(ProductMediaData::class)]
-        public ?DataCollection $media = null,
+        public ?Collection $media = null,
     ) {
     }
 
